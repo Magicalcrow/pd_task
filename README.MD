@@ -70,15 +70,6 @@ sudo docker tag pipedrive:latest 992382561999.dkr.ecr.eu-central-1.amazonaws.com
 sudo docker push 992382561999.dkr.ecr.eu-central-1.amazonaws.com/pipedrive:latest
 ```
 
-### Creating Secrets in Kubernetes
-
-Create the necessary secrets in Kubernetes:
-
-```bash
-kubectl create secret generic mysql-secret --from-env-file=../.env
-kubectl create secret generic mysecret --from-file=.dockerconfigjson=/root/.docker/config.json --type=kubernetes.io/dockerconfigjson
-```
-If it gives you permission problems, copy the config file to the repo folder for example. (Or any other with sufficient permissions)
 ### Terraform Deployment
 Initialize and apply the Terraform configuration:
 
@@ -100,6 +91,16 @@ NB! In case you feel like the build in aws gets stuck on one part (e.g. 20 min i
    ```bash
    aws eks update-kubeconfig --region eu-central-1 --name eks-app
    ```
+
+### Creating Secrets in Kubernetes
+
+Create the necessary secrets in Kubernetes:
+
+```bash
+kubectl create secret generic mysql-secret --from-env-file=../.env
+kubectl create secret generic mysecret --from-file=.dockerconfigjson=/root/.docker/config.json --type=kubernetes.io/dockerconfigjson
+```
+If it gives you permission problems, copy the config file to the repo folder for example. (Or any other with sufficient permissions)
 
 2. **Deploy MySQL and App**: Wait until the MySQL pod is in the running state, then apply the app manifest:
 
